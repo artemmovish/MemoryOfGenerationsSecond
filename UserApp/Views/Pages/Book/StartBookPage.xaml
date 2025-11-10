@@ -1,0 +1,48 @@
+﻿<Page x:Class="UserApp.Views.Pages.Book.StartBookPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UserApp.Views.Pages.Book"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="StartBookPage">
+    <Grid>
+        <Image Source="/Resources/Book/background.png" Width="1920" Height="1080"/>
+        <Canvas>
+            <Image Source="/Resources/Book/book1.png" Width="464" Height="704" Canvas.Top="205" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Image Source="/Resources/Book/book2.png" Width="464" Height="704" Canvas.Left="276" Canvas.Top="-135"/>
+            <Image Source="/Resources/Book/book3.png" Width="464" Height="704" Canvas.Left="745" Canvas.Top="21"/>
+            <Image Source="/Resources/Book/book5.png" Width="464" Height="704" Canvas.Left="745" Canvas.Top="558"/>
+            <Image Source="/Resources/Book/book4.png" Width="464" Height="704" Canvas.Left="276" Canvas.Top="498" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+            <TextBlock Style="{StaticResource h1}"
+                       Canvas.Left="1205" Canvas.Top="239">
+    <Run Text="ЖИВОЕ"/>
+    <LineBreak/>
+    <Run Text="НАСЛЕДИЕ"/>
+            </TextBlock>
+
+            <TextBlock Text="Каждая книга — это дверь в прошлое, раскрывающая наследие поколений.
+Каждая история — ключ к пониманию и сохранению исторической памяти. "
+                       Style="{StaticResource h2}"
+                       Width="715" Canvas.Left="1205" Canvas.Top="447"/>
+
+            <Button Style="{StaticResource RoundedButtonStyle}" Width="372" Height="89"
+                     Canvas.Left="1318" Canvas.Top="763" Click="Start_Click">
+                <Button.Content>
+                    <TextBlock Text="Читать" Style="{StaticResource btnText}" Foreground="White"/>
+                </Button.Content>
+            </Button>
+
+            <Button Style="{StaticResource RoundButtonStyle}" Click="Button_Click" Background="Black" Canvas.Left="10" Canvas.Top="970">
+                <Button.Content>
+                    <TextBlock Text="&lt;" Foreground="White" FontSize="36" FontWeight="Bold"/>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource RoundButtonStyle}" Click="Button_Click" Background="Black" Canvas.Left="1810" Canvas.Top="970" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Text="&gt;" Foreground="White" FontSize="36" FontWeight="Bold"/>
+            </Button>
+        </Canvas>
+    </Grid>
+</Page>

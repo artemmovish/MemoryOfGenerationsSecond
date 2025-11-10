@@ -1,0 +1,67 @@
+﻿<Page x:Class="UserApp.Views.Pages.Book.AuthorizationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UserApp.Views.Pages.Book"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="AuthorizationPage">
+
+    <Grid Background="White">
+        <!--Авторизация-->
+        <Grid x:Name="RegistrationPanel" Visibility="Visible" >
+            <Image Source="/Resources/Book/registrB.png"/>
+            <Canvas>
+                <TextBox x:Name="Username" Canvas.Left="439" Canvas.Top="398" Height="66" Width="1013" 
+             VerticalContentAlignment="Center" Background="Transparent" BorderThickness="0"
+             HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="40"/>
+                <TextBox x:Name="Password" Canvas.Left="439" Canvas.Top="579" Height="63" Width="1013" 
+ VerticalContentAlignment="Center" Background="Transparent" BorderThickness="0" FontSize="40"
+ HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                <Button Style="{StaticResource RoundedButtonStyle}"
+            Width="670" Height="100" Canvas.Left="625" Canvas.Top="707" Click="AuthBtn_Click">
+                    <TextBlock Text="Войти" Style="{StaticResource btnText}"/>
+                </Button>
+                <StackPanel Orientation="Horizontal" Canvas.Left="625" Canvas.Top="860">
+                    <TextBlock Text="Нет аккаутна?" Foreground="Black" Style="{StaticResource h2}"/>
+                    <TextBlock>
+            <Hyperlink Foreground="#AEA040" Click="HyperlinkToReg_Click">
+                Зарегистрироваться
+            </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </Canvas>
+        </Grid>
+        
+        <!--Регистрация-->
+        <Grid x:Name="RegistrationPanel2" Visibility="Collapsed">
+            <Image Source="/Resources/Book/registrB2.png"/>
+            <Canvas>
+                <Canvas>
+                    <TextBox x:Name="Username2" Canvas.Left="439" Canvas.Top="374" Height="66" Width="1013" 
+            VerticalContentAlignment="Center" Background="Transparent" BorderThickness="0"
+            HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="40"/>
+                    <TextBox x:Name="Password2" Canvas.Left="439" Canvas.Top="554" Height="62" Width="1013" 
+VerticalContentAlignment="Center" Background="Transparent" BorderThickness="0" FontSize="40"
+HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+                    <Button Style="{StaticResource RoundedButtonStyle}"
+           Width="670" Height="100" Canvas.Left="625" Canvas.Top="707"
+                            Click="RegBtn_Click">
+                        <TextBlock Text="Зарегистрироваться" Style="{StaticResource btnText}" Foreground="White"/>
+                    </Button>
+                    <StackPanel Orientation="Horizontal" Canvas.Left="625" Canvas.Top="860">
+                        <TextBlock Text="Уже есть аккаунт? " Style="{StaticResource h2}"/>
+                        <TextBlock>
+           <Hyperlink Foreground="#AEA040" Click="HyperlinkToAuth_Click">
+               Войти
+           </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </Canvas>
+            </Canvas>
+        </Grid>
+    </Grid>
+</Page>
