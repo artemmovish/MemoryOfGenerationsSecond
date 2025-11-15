@@ -25,17 +25,61 @@ namespace Infastructure.Context
         public DbSet<Actor> Actors { get; set; }
         public DbSet<PlayList> PlayLists { get; set; }
         public DbSet<FavoriteMusic> FavoriteMusics { get; set; }
-
+        public DbSet<HelpText> HelpTexts { get; set; }
+        public DbSet<UserPlayList> UserPlayLists { get; set; }
+        public DbSet<UserPlayListMusic> UserPlayListMusics { get; set; }
+        public DbSet<QuestForAuth> QuestForAuths { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=D:\\Dev\\Projects\\проект\\Mem.db");
-            }
+            var connectionString = "server=localhost;port=3306;database=MemoryOfGeneration;user=root;password=admin;";
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+                          .EnableSensitiveDataLogging() // Only in development
+                          .EnableDetailedErrors();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // User → UserPlayLists (1 → many)
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserPlayLists)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // UserPlayList → UserPlayListMusic (1 → many)
+            modelBuilder.Entity<UserPlayList>()
+                .HasMany(p => p.UserPlayListMusics)
+                .WithOne(x => x.UserPlayList)
+                .HasForeignKey(x => x.UserPlayListId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // UserPlayListMusic → Music (many → 1)
+            modelBuilder.Entity<UserPlayListMusic>()
+                .HasOne(x => x.Music)
+                .WithMany()
+                .HasForeignKey(x => x.MusicId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Уникальность пары (UserPlayListId, MusicId)
+            modelBuilder.Entity<UserPlayListMusic>()
+                .HasIndex(x => new { x.UserPlayListId, x.MusicId })
+                .IsUnique();
+
+
+            // Конфигурация для QuestForAuth (если нужны дополнительные настройки)
+            modelBuilder.Entity<QuestForAuth>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                // Добавьте другие конфигурации при необходимости
+            });
+
+            // Конфигурация связи User - QuestForAuth
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.QuestForAuth)
+                .WithMany()
+                .HasForeignKey(u => u.QuestForAuthId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Существующие связи
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Author)

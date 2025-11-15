@@ -13,6 +13,7 @@ namespace Entity.Models.MusicEntity
         public int ActorId { get; set; }
 
         public Actor Actor { get; set; }
+        public ICollection<UserPlayListMusic> UserPlayListMusics { get; set; }
         public ICollection<PlayList> PlayLists { get; set; } = new List<PlayList>();
         public ICollection<FavoriteMusic> FavoriteMusics { get; set; } = new List<FavoriteMusic>();
     }

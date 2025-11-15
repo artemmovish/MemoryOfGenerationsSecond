@@ -95,5 +95,10 @@ namespace UserApp.Views.Pages.Book
             DataStore.MainViewModel.Message = "Неверный логин или пароль";
             DataStore.MainViewModel.OpenShapka();
         }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

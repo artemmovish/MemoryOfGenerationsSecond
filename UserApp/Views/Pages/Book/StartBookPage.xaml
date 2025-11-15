@@ -35,12 +35,12 @@
                 </Button.Content>
             </Button>
 
-            <Button Style="{StaticResource RoundButtonStyle}" Click="Button_Click" Background="Black" Canvas.Left="10" Canvas.Top="970">
+            <Button x:Name="Left_btn" Style="{StaticResource RoundButtonStyle}" Click="Button_Click" Background="Black" Canvas.Left="10" Canvas.Top="970">
                 <Button.Content>
                     <TextBlock Text="&lt;" Foreground="White" FontSize="36" FontWeight="Bold"/>
                 </Button.Content>
             </Button>
-            <Button Style="{StaticResource RoundButtonStyle}" Click="Button_Click" Background="Black" Canvas.Left="1810" Canvas.Top="970" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Button x:Name="Right_btn" Style="{StaticResource RoundButtonStyle}" Click="Button_Click" Background="Black" Canvas.Left="1810" Canvas.Top="970" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="&gt;" Foreground="White" FontSize="36" FontWeight="Bold"/>
             </Button>
         </Canvas>

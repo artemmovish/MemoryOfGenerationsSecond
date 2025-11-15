@@ -3,6 +3,7 @@ using System;
 using Infastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251111180929_fix")]
+    partial class fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
@@ -241,16 +244,22 @@ namespace Infastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PathPhoto")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("UserId1")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPlayLists");
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserPlayList");
                 });
 
             modelBuilder.Entity("Entity.Models.MusicEntity.UserPlayListMusic", b =>
@@ -268,16 +277,21 @@ namespace Infastructure.Migrations
                     b.Property<int>("UserPlayListId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("UserPlayListId1")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("MusicId");
+                    b.HasKey("Id");
 
                     b.HasIndex("MusicId1");
 
-                    b.HasIndex("UserPlayListId", "MusicId")
+                    b.HasIndex("UserPlayListId");
+
+                    b.HasIndex("UserPlayListId1");
+
+                    b.HasIndex("MusicId", "UserPlayListId")
                         .IsUnique();
 
-                    b.ToTable("UserPlayListMusics");
+                    b.ToTable("UserPlayListMusic");
                 });
 
             modelBuilder.Entity("Entity.Models.MyThought", b =>
@@ -324,7 +338,7 @@ namespace Infastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QuestForAuths");
+                    b.ToTable("QuestForAuth");
                 });
 
             modelBuilder.Entity("Entity.Models.User", b =>
@@ -340,7 +354,7 @@ namespace Infastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("QuestForAuthId")
+                    b.Property<int>("QuestForAuthId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Username")
@@ -432,10 +446,14 @@ namespace Infastructure.Migrations
             modelBuilder.Entity("Entity.Models.MusicEntity.UserPlayList", b =>
                 {
                     b.HasOne("Entity.Models.User", "User")
-                        .WithMany("UserPlayLists")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entity.Models.User", null)
+                        .WithMany("UserPlayLists")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });
@@ -453,10 +471,14 @@ namespace Infastructure.Migrations
                         .HasForeignKey("MusicId1");
 
                     b.HasOne("Entity.Models.MusicEntity.UserPlayList", "UserPlayList")
-                        .WithMany("UserPlayListMusics")
+                        .WithMany()
                         .HasForeignKey("UserPlayListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entity.Models.MusicEntity.UserPlayList", null)
+                        .WithMany("UserPlayListMusics")
+                        .HasForeignKey("UserPlayListId1");
 
                     b.Navigation("Music");
 
@@ -487,7 +509,8 @@ namespace Infastructure.Migrations
                     b.HasOne("Entity.Models.QuestForAuth", "QuestForAuth")
                         .WithMany()
                         .HasForeignKey("QuestForAuthId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("QuestForAuth");
                 });

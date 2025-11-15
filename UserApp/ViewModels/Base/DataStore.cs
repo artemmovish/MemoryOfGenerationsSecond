@@ -1,4 +1,5 @@
 ﻿using Entity.Models;
+using Infastructure.Context;
 using Infastructure.Services;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,7 @@ namespace UserApp.ViewModels.Base
                 return DesignerProperties.GetIsInDesignMode(new DependencyObject());
             }
         }
+        public static AppDbContext AppDbContext { get; set; }
         public static bool AdminMode { get; set; } = false;
         public User User { get; set; }
 
@@ -70,6 +72,7 @@ namespace UserApp.ViewModels.Base
         public MusicPage MusicPage { get; set; } = new();
 
         public PlayListPage PlayListPage { get; set; } = new();
+        public UserPlayListPage UserPlayListPage { get; set; } = new();
         public ArtistPage ActorPage { get; set; } = new ArtistPage();
         #endregion
     }

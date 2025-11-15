@@ -13,6 +13,10 @@ namespace UserApp.Views.Pages.Book
         public StartBookPage()
         {
             InitializeComponent();
+
+            var text = DataStore.AppDbContext.HelpTexts.FirstOrDefault(a => a.Id == 1).Text;
+
+            UpdateToolTips(text, text);
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
@@ -24,6 +28,12 @@ namespace UserApp.Views.Pages.Book
         {
             DataStore.MainViewModel.SetShapka(2);
             NavigationService.Navigate(DataStore.Instance.StartMusicPage);
+        }
+
+        private void UpdateToolTips(string leftTip, string rightTip)
+        {
+            Left_btn.ToolTip = leftTip;
+            Right_btn.ToolTip = rightTip;
         }
     }
 }

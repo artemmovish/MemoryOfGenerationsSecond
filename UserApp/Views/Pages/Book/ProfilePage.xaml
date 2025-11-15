@@ -127,6 +127,64 @@ Background="Transparent" Padding="0">
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <!-- Список плейлистов пользователя -->
+                <StackPanel Orientation="Horizontal" Margin="0,30,0,10">
+                    <TextBlock Text="Мои плейлисты" Style="{StaticResource h1}" Foreground="White" Margin="0,0,20,0"/>
+                    <Button Background="Black" FontSize="90" Style="{StaticResource RoundButtonStyle}"
+        x:Name="AddUserPleyListBtn" Command="{Binding CreatePlayListCommand}" Panel.ZIndex="100">
+                        <TextBlock Text="+" FontSize="80" Style="{StaticResource btnText}"/>
+                    </Button>
+                </StackPanel>
+
+                <ListView ItemsSource="{Binding User.UserPlayLists}" 
+          HorizontalAlignment="Center" 
+          BorderThickness="0" Height="600"
+          Background="Transparent">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="30" Margin="-10,0,0,0" 
+Style="{StaticResource RoundedBorderStyle}">
+                                <Button Padding="0" Command="{Binding DataContext.OpenPlayListCommand, 
+    RelativeSource={RelativeSource AncestorType=ListView}}"
+    CommandParameter="{Binding}"
+    Style="{StaticResource RoundedButtonStyle}"
+    Background="Transparent">
+                                    <Grid Width="600" Height="300">
+                                        <Rectangle Fill="#343434" Opacity="0.7"/>
+                                        <Border Width="280" Height="280" CornerRadius="280" Style="{StaticResource RoundedBorderStyle}"
+                                VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,0,0">
+                                            <Image Source="{Binding PathPhoto}" Stretch="UniformToFill"
+                                   Width="280" Height="280" VerticalAlignment="Bottom"  HorizontalAlignment="Right"/>
+                                        </Border>
+
+                                        <StackPanel Margin="330,30,0,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}" Foreground="White" 
+                                                       Style="{StaticResource title}"/>
+                                            <TextBlock Text="{Binding UserPlayListMusics.Count, StringFormat='{}Треков: {0}'}" 
+                                                       Style="{StaticResource discription}" 
+                                                       Foreground="White"
+                                                       Margin="10,0,0,5"/>
+                                            <Button Command="{Binding DataContext.PlayPlayListCommand, 
+        RelativeSource={RelativeSource AncestorType=ListView}}" Style="{StaticResource RoundedButtonStyle}"
+        CommandParameter="{Binding}" 
+        FontSize="12" Height="60"
+        Background="Black"
+        BorderThickness="0"
+        HorizontalAlignment="Center">
+                                                <TextBlock Style="{StaticResource btnText}" TextAlignment="Center" Text="Слушать" Width="230"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
         </Grid>
     </ScrollViewer>

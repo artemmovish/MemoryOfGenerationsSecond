@@ -33,6 +33,8 @@ public partial class MainWindow : Window
 
         var context = new AppDbContext();
 
+        DataStore.AppDbContext = context;
+
         // Инициализация сервисов
         AuthorService.Context = context;
         BookService.Context = context;
@@ -44,6 +46,10 @@ public partial class MainWindow : Window
         ActorService.Context = context;
         PlayListService.Context = context;
         FavoriteMusicService.Context = context;
+
+        UserPlayListMusicService.Context = context;
+        UserPlayListService.Context = context;
+        QuestForAuthService.Context = context;
 
         MainFrame.Navigate(DataStore.Instance.StartBookPage);
         DataStore.NavigationService = MainFrame.NavigationService;

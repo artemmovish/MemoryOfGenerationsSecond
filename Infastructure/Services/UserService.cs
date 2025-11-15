@@ -1,14 +1,9 @@
 ﻿// UserService.cs
 using Entity.Models;
+using Entity.Models.MusicEntity;
 using Infastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infastructure.Services
 {
@@ -64,7 +59,10 @@ namespace Infastructure.Services
 
         public static async Task<User?> AuthenticateAsync(string username, string password)
         {
-            var user = await Context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await Context.Users
+                .Include(u => u.UserPlayLists)
+                .FirstOrDefaultAsync(u => u.Username == username);
+
             if (user == null)
                 return null;
 
@@ -73,6 +71,40 @@ namespace Infastructure.Services
 
             return null;
         }
+
+
+        public static async Task<List<UserPlayList>> GetUserPlayListsAsync(int userId)
+        {
+            return await Context.UserPlayLists
+                .Where(upl => upl.UserId == userId)
+                .Include(upl => upl.UserPlayListMusics)
+                    .ThenInclude(upm => upm.Music)
+                .ToListAsync();
+        }
+
+        public static async Task<User?> GetUserWithDetailsAsync(int id)
+        {
+            return await Context.Users
+                .Include(u => u.QuestForAuth)
+                .Include(u => u.MyThoughts)
+                .Include(u => u.FavoriteBooks)
+                .Include(u => u.FavoriteMusics)
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public static async Task<bool> UpdateUserQuestAsync(int userId, int questForAuthId)
+        {
+            var user = await Context.Users.FindAsync(userId);
+            if (user != null)
+            {
+                user.QuestForAuthId = questForAuthId;
+                Context.Users.Update(user);
+                await Context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
 
         // Упрощенное хеширование пароля с солью
         private static string HashPassword(string password)

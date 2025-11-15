@@ -3,9 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using Entity.Models;
 using Entity.Models.MusicEntity;
 using Infastructure.Services;
+using Infastructure.Services.Music;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,6 +113,82 @@ namespace UserApp.ViewModels.BookVM
                 return;
             }
             DataStore.MainViewModel.Message = "Неверный пароль";
+        }
+
+        // Добавьте эти свойства в класс ProfileViewModel
+        [ObservableProperty]
+        private string newPlayListName = "";
+
+        [ObservableProperty]
+        private UserPlayList selectedUserPlayList;
+
+        [ObservableProperty]
+        private List<UserPlayList> userPlayLists = new();
+
+        // Добавьте в конструктор или метод инициализации
+        partial void OnUserChanged(User value)
+        {
+            if (value != null)
+            {
+                LoadUserPlayLists();
+            }
+        }
+
+        private async void LoadUserPlayLists()
+        {
+            UserPlayLists = await UserPlayListService.GetUserPlayListsByUserIdAsync(User.Id);
+            OnPropertyChanged(nameof(UserPlayLists));
+        }
+
+        [RelayCommand]
+        async Task CreatePlayList()
+        {
+            var page = DataStore.Instance.UserPlayListPage;
+
+            page.DataContext = new UserPlayListViewModel();
+
+            DataStore.NavigationService.Navigate(page);
+        }
+
+        [RelayCommand]
+        void OpenPlayList(UserPlayList playList)
+        {
+            var page = DataStore.Instance.UserPlayListPage;
+
+            page.DataContext = new UserPlayListViewModel(playList);
+
+            DataStore.NavigationService.Navigate(page);
+        }
+
+        public async Task LoadUserPlayListAsync(int userPlayListId)
+        {
+            
+        }
+
+        [RelayCommand]
+        async Task PlayPlayList(UserPlayList playList_)
+        {
+            var playList = await UserPlayListService.GetUserPlayListByIdAsync(playList_.Id);
+
+            if (playList?.UserPlayListMusics?.Any() == true)
+            {
+                // Очищаем весь текущий список
+                AudioService.TrackList.Clear();
+
+                // Добавляем все треки из плейлиста
+                foreach (var userPlayListMusic in playList.UserPlayListMusics)
+                {
+                    DataStore.AudioService.AddTrack(userPlayListMusic.Music.MusicPath);
+                }
+
+                // Запускаем воспроизведение
+                DataStore.AudioService.Play();
+                DataStore.MainViewModel.Message = $"Воспроизводится плейлист: {playList.Name}";
+            }
+            else
+            {
+                DataStore.MainViewModel.Message = "Плейлист пуст";
+            }
         }
     }
 }
