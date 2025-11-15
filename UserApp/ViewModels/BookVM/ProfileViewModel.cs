@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using UserApp.ViewModels.Base;
 using UserApp.ViewModels.MusicVM;
 using UserApp.Views.Pages.Book;
+using UserApp.Views.Windows;
 
 namespace UserApp.ViewModels.BookVM
 {
@@ -22,6 +23,13 @@ namespace UserApp.ViewModels.BookVM
     {
         [ObservableProperty]
         User user = DataStore.Instance.User;
+
+        [ObservableProperty]
+        QuestForAuth questForAuth = new QuestForAuth()
+        {
+            Title = "Введите вопрос",
+            Answer = "Введите ответ"
+        };
 
         [ObservableProperty]
         string password = "";
@@ -37,6 +45,18 @@ namespace UserApp.ViewModels.BookVM
             page.DataContext = book == null ? new BookViewModel() : new BookViewModel(book);
 
             DataStore.NavigationService.Navigate(page);
+        }
+
+        [RelayCommand]
+        async void SaveQwest()
+        {
+            await QuestForAuthService.AddQuestAsync(QuestForAuth);
+
+            var q = await QuestForAuthService.GetQuestByTitleAsync(QuestForAuth.Title);
+
+            User.QuestForAuthId = q.Id;
+
+            await UserService.UpdateUserAsync(user);
         }
 
         [RelayCommand]

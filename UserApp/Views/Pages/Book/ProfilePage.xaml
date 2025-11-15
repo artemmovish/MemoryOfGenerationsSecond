@@ -23,6 +23,61 @@
                         <TextBlock Text="Редактировать профиль" Width="400" TextWrapping="Wrap"
                                Style="{StaticResource btnText}" TextAlignment="Center"/>
                     </Button>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10" Background="Transparent">
+
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Width" Value="200"/>
+                                <Setter Property="Height" Value="35"/>
+                                <Setter Property="Margin" Value="5,0"/>
+                                <Setter Property="Padding" Value="8,2"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="#ced4da"/>
+                                <Setter Property="Background" Value="Gray"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+
+                            <Style TargetType="Button">
+                                <Setter Property="Width" Value="120"/>
+                                <Setter Property="Height" Value="35"/>
+                                <Setter Property="Margin" Value="10,0,5,0"/>
+                                <Setter Property="Background" Value="#007bff"/>
+                                <Setter Property="Foreground" Value="Gray"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="FontSize" Value="12"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#0056b3"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#004085"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="TextAlignment" Value="Center"/>
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <TextBox x:Name="QwestTitle" 
+             Text="{Binding QuestForAuth.Title}"
+             ToolTip="Введите вопрос для безопасности"/>
+
+                        <TextBox x:Name="QwestAnswer" 
+             Text="{Binding QuestForAuth.Answer}"
+             ToolTip="Введите ответ на вопрос"/>
+
+                        <Button x:Name="SaveQwest_btn" 
+            Command="{Binding SaveQwestCommand}">
+                            <TextBlock Foreground="White" Text="💾 Сохранить"/>
+                        </Button>
+
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
 

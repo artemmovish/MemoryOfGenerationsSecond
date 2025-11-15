@@ -24,14 +24,23 @@
             Width="670" Height="100" Canvas.Left="625" Canvas.Top="707" Click="AuthBtn_Click">
                     <TextBlock Text="Войти" Style="{StaticResource btnText}"/>
                 </Button>
-                <StackPanel Orientation="Horizontal" Canvas.Left="625" Canvas.Top="860">
-                    <TextBlock Text="Нет аккаутна? " Foreground="White" Style="{StaticResource h2}"/>
-                    <TextBlock>
-            <Hyperlink Foreground="#AEA040" Click="HyperlinkToReg_Click">
-                Зарегистрироваться
-            </Hyperlink>
+
+                <StackPanel Canvas.Left="625" Canvas.Top="860">
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="Нет аккаутна? " Foreground="White" Style="{StaticResource h2}"/>
+                        <TextBlock>
+<Hyperlink Foreground="#AEA040" Click="HyperlinkToReg_Click">
+    Зарегистрироваться
+</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Center">
+    <Hyperlink Foreground="Blue" Click="Hyperlink_Click">
+        Забыли пароль?
+    </Hyperlink>
                     </TextBlock>
                 </StackPanel>
+                
             </Canvas>
         </Grid>
 

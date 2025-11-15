@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UserApp.ViewModels.Base;
+using UserApp.Views.Windows;
 
 namespace UserApp.Views.Pages.Book
 {
@@ -74,6 +75,11 @@ namespace UserApp.Views.Pages.Book
 
             if (user != null)
             {
+                if (user != null && user.QuestForAuthId != null)
+                {
+                    user.QuestForAuth = await QuestForAuthService.GetQuestByIdAsync((int)user.QuestForAuthId);
+                }
+
                 user.MyThoughts = await MyThoughtService.GetUserThoughtsAsync(user.Id);
                 user.FavoriteBooks = await FavoriteBookService.GetUserFavoritesAsync(user.Id);
                 user.FavoriteMusics = await FavoriteMusicService.GetUserFavoritesAsync(user.Id);
@@ -96,9 +102,32 @@ namespace UserApp.Views.Pages.Book
             DataStore.MainViewModel.OpenShapka();
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private async void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
+            var user = await UserService.GetUserByUsernameAsync(Username.Text);
 
+            if (user != null && user.QuestForAuthId != null)
+            {
+                user.QuestForAuth = await QuestForAuthService.GetQuestByIdAsync((int)user.QuestForAuthId);
+                var windows = new CheckQwest(user);
+                bool? result = windows.ShowDialog();
+                if (result != null)
+                {
+                    DataStore.Instance.User = user;
+                    DataStore.MainViewModel.Message = "Вы вошли";
+                    DataStore.NavigationService.GoBack();
+                    DataStore.AdminMode = user.Username == "admin";
+
+                    DataStore.NavigationService.Navigate(DataStore.Instance.MainBookPage);
+
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Вопрос не найден для этого пользователя");
+            }
+            
         }
     }
 }

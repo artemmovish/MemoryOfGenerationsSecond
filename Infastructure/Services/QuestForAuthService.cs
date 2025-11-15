@@ -53,14 +53,6 @@ namespace Infastructure.Services
             return false;
         }
 
-        public static async Task<List<QuestForAuth>> GetRandomQuestsAsync(int count)
-        {
-            return await Context.QuestForAuths
-                .OrderBy(q => Guid.NewGuid()) // Случайный порядок
-                .Take(count)
-                .ToListAsync();
-        }
-
         public static async Task<bool> VerifyAnswerAsync(int questId, string answer)
         {
             var quest = await Context.QuestForAuths.FindAsync(questId);
