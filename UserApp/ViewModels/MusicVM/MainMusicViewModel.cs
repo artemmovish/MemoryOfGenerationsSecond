@@ -27,7 +27,7 @@ namespace UserApp.ViewModels.MusicVM
             LoadData();
         }
 
-        private async void LoadData()
+        public async void LoadData()
         {
             Musics = new ObservableCollection<Music>(await MusicService.GetAllMusicsAsync());
             FilteredMusics = new ObservableCollection<Music>(Musics);

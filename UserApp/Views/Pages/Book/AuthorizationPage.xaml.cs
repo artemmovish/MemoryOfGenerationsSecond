@@ -47,13 +47,10 @@ namespace UserApp.Views.Pages.Book
            
             DataStore.Instance.User = await UserService.AuthenticateAsync(Username2.Text, Password2.Text);
 
-            DataStore.MainViewModel.Message = "Вы зарегестрировались";
+            DataStore.MainViewModel.Message = "Вы зарегестрировались, войдите в свой аккаунт";
 
-            DataStore.MainViewModel.AvatarPath = user.AvatarPath;
-
-            DataStore.NavigationService.GoBack();
-            await Task.Delay(100);
-            DataStore.NavigationService.Navigate(DataStore.Instance.MainBookPage);
+            RegistrationPanel.Visibility = Visibility.Visible;
+            RegistrationPanel2.Visibility = Visibility.Collapsed;
         }
 
         private void HyperlinkToReg_Click(object sender, RoutedEventArgs e)

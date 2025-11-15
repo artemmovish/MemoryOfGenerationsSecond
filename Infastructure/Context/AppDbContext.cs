@@ -32,9 +32,12 @@ namespace Infastructure.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = "server=localhost;port=3306;database=MemoryOfGeneration;user=root;password=admin;";
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-                          .EnableSensitiveDataLogging() // Only in development
-                          .EnableDetailedErrors();
+
+            optionsBuilder.UseSqlite(@"Data Source=D:\Dev\Projects\проект\bebebe.db");
+
+            //optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+            //              .EnableSensitiveDataLogging() // Only in development
+            //              .EnableDetailedErrors();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

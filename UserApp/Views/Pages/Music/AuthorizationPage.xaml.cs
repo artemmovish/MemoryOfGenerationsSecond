@@ -3,6 +3,7 @@ using Infastructure.Services;
 using Infastructure.Services.Music;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,16 +39,19 @@ namespace UserApp.Views.Pages.Music
             var user = new User()
             {
                 Username = Username2.Text,
-                Password = Password2.Text
+                Password = Password2.Text,
+                MyThoughts = new ObservableCollection<MyThought>(),
+                FavoriteBooks = new ObservableCollection<FavoriteBook>(),
+                AvatarPath = "/Resources/Book/profileIcon.png"
             };
 
             await UserService.AddUserAsync(user);
 
             DataStore.Instance.User = await UserService.AuthenticateAsync(user.Username, user.Password);
-            DataStore.MainViewModel.Message = "Вы зарегестрировались";
+            DataStore.MainViewModel.Message = "Вы зарегестрировались, войдите в свой аккаунт";
 
-            DataStore.NavigationService.GoBack();
-            DataStore.NavigationService.Navigate(DataStore.Instance.MainMusicPage);
+            RegistrationPanel.Visibility = Visibility.Visible;
+            RegistrationPanel2.Visibility = Visibility.Collapsed;
         }
 
         private void HyperlinkToReg_Click(object sender, RoutedEventArgs e)

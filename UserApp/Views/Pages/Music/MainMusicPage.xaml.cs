@@ -31,12 +31,17 @@ namespace UserApp.Views.Pages.Music
         }
 
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             AddMusicBtn.Visibility = DataStore.AdminMode ? Visibility.Visible : Visibility.Collapsed;
             AddActorBtn.Visibility = DataStore.AdminMode ? Visibility.Visible : Visibility.Collapsed;
             AddPlayBtn.Visibility = DataStore.AdminMode ? Visibility.Visible : Visibility.Collapsed;
-            DataContext = new MainMusicViewModel();
+
+            var model = new MainMusicViewModel();
+
+            await Task.Delay(1000);
+
+            DataContext = model;
         }
 
         private void OpenBooks_Click(object sender, RoutedEventArgs e)
