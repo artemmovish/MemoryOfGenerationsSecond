@@ -89,7 +89,7 @@
                                 </Button>
                             </StackPanel>
 
-                            <ListView ItemsSource="{Binding Actors}" 
+                            <ListView ItemsSource="{Binding FilteredActors}" 
                                       HorizontalAlignment="Center" BorderThickness="0"
                                       Background="Transparent">
                                 <ListView.ItemsPanel>

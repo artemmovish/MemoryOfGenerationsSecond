@@ -13,6 +13,9 @@ namespace UserApp.ViewModels.MusicVM
         public ObservableCollection<Music> Musics { get; set; }
         public ObservableCollection<Music> FilteredMusics { get; set; }
         public ObservableCollection<Actor> Actors { get; set; }
+
+        public ObservableCollection<Actor> FilteredActors { get; set; }
+
         public ObservableCollection<PlayList> PlayLists { get; set; }
 
         [ObservableProperty]
@@ -32,6 +35,7 @@ namespace UserApp.ViewModels.MusicVM
             Musics = new ObservableCollection<Music>(await MusicService.GetAllMusicsAsync());
             FilteredMusics = new ObservableCollection<Music>(Musics);
             Actors = new ObservableCollection<Actor>(await ActorService.GetAllActorsAsync());
+            FilteredActors = new(Actors);
             PlayLists = new ObservableCollection<PlayList>(await PlayListService.GetAllPlayListsAsync());
 
             PropertyChanged += (s, e) =>
@@ -42,8 +46,6 @@ namespace UserApp.ViewModels.MusicVM
                 }
             };
         }
-
-
 
         [RelayCommand]
         void FilterByGenre(string genre)
@@ -79,11 +81,25 @@ namespace UserApp.ViewModels.MusicVM
             // Сортировка по названию (Name)
             var sortedMusics = filtered.OrderBy(music => music.Name).ToList();
 
+            // Фильтрация по SearchText (если не пусто)
+            var filteredA = string.IsNullOrWhiteSpace(SearchText)
+                ? Actors.ToList() // Если строка поиска пуста, берем все треки
+                : Actors.Where(music =>
+                    music.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // Сортировка по названию (Name)
+            var sortedA = filteredA.OrderBy(music => music.Name).ToList();
+
             // Обновляем FilteredMusics
             FilteredMusics.Clear();
+            FilteredActors.Clear();
             foreach (var music in sortedMusics)
             {
                 FilteredMusics.Add(music);
+            }
+            foreach (var item in sortedA)
+            {
+                FilteredActors.Add(item);
             }
 
             // Уведомляем UI об изменении коллекции
